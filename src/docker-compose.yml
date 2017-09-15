@@ -1,6 +1,8 @@
 version: '2'
 services:
   api:
+    container_name: api
     build: api
   static:
+    container_name: static
     build: static
