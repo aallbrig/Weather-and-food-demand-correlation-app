@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Test command
+      debug: msg="Hey hey hey, what is up!"
+

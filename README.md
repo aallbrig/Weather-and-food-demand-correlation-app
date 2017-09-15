@@ -7,6 +7,7 @@ This application is meant correlate the impact demand can have on demand for foo
 * Scala
 * Webpack
 * Typescript
+* Ansible
 
 ### Vendor APIs
 * Clustertruck
