@@ -2,4 +2,5 @@ version: '2'
 services:
   api:
     build: api
-
+  static:
+    build: static
