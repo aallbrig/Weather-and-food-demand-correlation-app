@@ -1,0 +1,14 @@
+{
+  "name": "aws",
+  "version": "1.0.0",
+  "description": "Tooling to make cloud formation not suck as bad",
+  "main": "(none)",
+  "scripts": {
+    "validate-cloudformation": "./node_modules/.bin/cfn-lint validate application-stack.yml"
+  },
+  "author": "Andrew Allbright",
+  "license": "MIT",
+  "devDependencies": {
+    "cfn-lint": "^1.1.6"
+  }
+}
