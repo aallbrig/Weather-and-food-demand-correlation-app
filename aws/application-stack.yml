@@ -1,28 +1,158 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Application stack
+Description: Weather/food application infrastructure
 Resources:
+  NginxImageRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: 'weatherfoodcorrelationapp/nginx'
+      RepositoryPolicyText:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowPushPull
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::Join:
+                  - ':'
+                  - - 'arn:aws:iam:'
+                    - Ref: AWS::AccountId
+                    - 'root'
+            Action:
+              - 'ecr:GetDownloadUrlForLayer'
+              - 'ecr:BatchGetImage'
+              - 'ecr:BatchCheckLayerAvailability'
+              - 'ecr:PutImage'
+              - 'ecr:InitiateLayerUpload'
+              - 'ecr:UploadLayerPart'
+
+  StaticImageRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: 'weatherfoodcorrelationapp/static'
+      RepositoryPolicyText:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowPushPull
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::Join:
+                  - ':'
+                  - - 'arn:aws:iam:'
+                    - Ref: AWS::AccountId
+                    - 'root'
+            Action:
+              - 'ecr:GetDownloadUrlForLayer'
+              - 'ecr:BatchGetImage'
+              - 'ecr:BatchCheckLayerAvailability'
+              - 'ecr:PutImage'
+              - 'ecr:InitiateLayerUpload'
+              - 'ecr:UploadLayerPart'
+
+  ApiImageRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: 'weatherfoodcorrelationapp/api'
+      RepositoryPolicyText:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowPushPull
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::Join:
+                  - ':'
+                  - - 'arn:aws:iam:'
+                    - Ref: AWS::AccountId
+                    - 'root'
+            Action:
+              - 'ecr:GetDownloadUrlForLayer'
+              - 'ecr:BatchGetImage'
+              - 'ecr:BatchCheckLayerAvailability'
+              - 'ecr:PutImage'
+              - 'ecr:InitiateLayerUpload'
+              - 'ecr:UploadLayerPart'
+
   EcsCluster:
     Type: AWS::ECS::Cluster
-  ImageRepository:
-    Type: AWS::ECR::Repository
-  EcsSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: ECS Security Group
-  EcsSecurityGroupHTTPInbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '80'
-      ToPort: '80'
-      CidrIp: 0.0.0.0/0
-  EcsSecurityGroupSSHInbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '22'
-      ToPort: '22'
-      CidrIp: 0.0.0.0/0
+      ClusterName: EcsCluster
+
+#  NginxTask:
+#    Type: 'AWS::ECS::TaskDefinition'
+#    Properties:
+#      Volumes:
+#        - Volume Definition
+#      Family: String
+#      NetworkMode: String
+#      PlacementConstraints:
+#       - TaskDefinitionPlacementConstraint
+#      TaskRoleArn: String
+#      ContainerDefinitions:
+#        - Container Definition
+
+#  StaticTask:
+#    Type: 'AWS::ECS::TaskDefinition'
+#    Properties:
+#      Volumes:
+#        - Volume Definition
+#      Family: String
+#      NetworkMode: String
+#      PlacementConstraints:
+#       - TaskDefinitionPlacementConstraint
+#      TaskRoleArn: String
+#      ContainerDefinitions:
+#        - Container Definition
+
+#  ApiTask:
+#    Type: 'AWS::ECS::TaskDefinition'
+#    Properties:
+#      Volumes:
+#        - Volume Definition
+#      Family: String
+#      NetworkMode: String
+#      PlacementConstraints:
+#       - TaskDefinitionPlacementConstraint
+#      TaskRoleArn: String
+#      ContainerDefinitions:
+#        - Container Definition
+
+#  EcsSecurityGroup:
+#    Type: AWS::EC2::SecurityGroup
+#    Properties:
+#      GroupName: WeatherFoodCorrelationApp
+#      GroupDescription: ECS Security Group
+#      SecurityGroupIngress:
+#        - !Ref EcsSecurityGroupHTTPInbound
+#        - !Ref EcsSecurityGroupHTTPSInbound
+#      Tags:
+#        - Resource Tag
+#      VpcId: String
+
+#  EcsSecurityGroupHTTPInbound:
+#    Type: AWS::EC2::SecurityGroupIngress
+#    Properties:
+#      GroupId: !Ref 'EcsSecurityGroup'
+#      IpProtocol: tcp
+#      FromPort: '80'
+#      ToPort: '80'
+#      CidrIp: 0.0.0.0/0
+
+#  EcsSecurityGroupHTTPSInbound:
+#    Type: AWS::EC2::SecurityGroupIngress
+#    Properties:
+#      GroupId: !Ref 'EcsSecurityGroup'
+#      IpProtocol: tcp
+#      FromPort: '443'
+#      ToPort: '443'
+#      CidrIp: 0.0.0.0/0
+
+#  EcsSecurityGroupSSHInbound:
+#    Type: AWS::EC2::SecurityGroupIngress
+#    Properties:
+#      GroupId: !Ref 'EcsSecurityGroup'
+#      IpProtocol: tcp
+#      FromPort: '22'
+#      ToPort: '22'
+#      CidrIp: 0.0.0.0/0
 
