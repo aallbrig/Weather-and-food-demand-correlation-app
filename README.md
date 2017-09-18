@@ -13,3 +13,7 @@ This application is meant correlate the impact demand can have on demand for foo
 * Clustertruck
 * Googlemaps
 
+### Useful Resources
+* http://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html
+* http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-ecs.html
+
