@@ -1,6 +1,28 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Resources required for Java based alexa skill
+Description: Application stack
 Resources:
-  WeatherCorrelationECSCluster:
-    Type: "AWS::ECS::Cluster"
+  EcsCluster:
+    Type: AWS::ECS::Cluster
+  ImageRepository:
+    Type: AWS::ECR::Repository
+  EcsSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ECS Security Group
+  EcsSecurityGroupHTTPInbound:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref 'EcsSecurityGroup'
+      IpProtocol: tcp
+      FromPort: '80'
+      ToPort: '80'
+      CidrIp: 0.0.0.0/0
+  EcsSecurityGroupSSHInbound:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref 'EcsSecurityGroup'
+      IpProtocol: tcp
+      FromPort: '22'
+      ToPort: '22'
+      CidrIp: 0.0.0.0/0
 
