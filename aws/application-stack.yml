@@ -106,37 +106,24 @@ Resources:
       ClusterName: WeatherFoodDemandCorrelationCluster
 
   NginxTask:
-    Type: 'AWS::ECS::TaskDefinition'
+    Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: !Join ['', [!Ref 'AWS::StackName', -nginx-task]]
-#      Volumes:
-#        - Volume Definition
-#      NetworkMode: String
-#      PlacementConstraints:
-#       - TaskDefinitionPlacementConstraint
-#      TaskRoleArn: String
       ContainerDefinitions:
         -
           Name: NginxTask
-          Image: !Join [ ".", [ !Ref "AWS::AccountId", "dkr.ecr", !Ref "AWS::Region", !Join [ "/", [ "amazonaws.com", !Ref "NginxImageRepository" ] ] ] ]
+          Memory: '128'
+          Image: !Join ["", [!Ref "AWS::AccountId", ".dkr.ecr.", !Ref "AWS::Region", ".amazonaws.com/", !Ref NginxImageRepository, ":latest"]]
           PortMappings:
             - ContainerPort: 80
-              hostPort: 80
 
   StaticTask:
-    Type: 'AWS::ECS::TaskDefinition'
+    Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: !Join ['', [!Ref 'AWS::StackName', -static-task]]
-#      Volumes:
-#        - Volume Definition
-#      NetworkMode: String
-#      PlacementConstraints:
-#       - TaskDefinitionPlacementConstraint
-#      TaskRoleArn: String
       ContainerDefinitions:
         -
           Name: StaticTask
-          Image: !Join [ ".", [ !Ref "AWS::AccountId", "dkr.ecr", !Ref "AWS::Region", !Join [ "/", [ "amazonaws.com", !Ref "StaticImageRepository" ] ] ] ]
+          Memory: '128'
+          Image: !Join ["", [!Ref "AWS::AccountId", ".dkr.ecr.", !Ref "AWS::Region", ".amazonaws.com/", !Ref StaticImageRepository, ":latest"]]
           PortMappings:
             - ContainerPort: 3000
 
@@ -220,4 +207,3 @@ Resources:
 #      - Key: idle_timeout.timeout_seconds
 #        Value: '30'
 #      SecurityGroups: [!Ref 'EcsSecurityGroup']
-
